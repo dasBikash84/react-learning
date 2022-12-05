@@ -1,36 +1,29 @@
 import Card from '../UI/Card';
 import ExpenseItem from './ExpenseItem';
 import './Expenses.css';
+import ExpensesFilter from './ExpensesFilter';
+import NoExpense from './NoExpense';
 
-function Expenses() {
-  const expenses = [
-    {
-      id: 'e1',
-      title: 'Toilet Paper',
-      amount: 94.12,
-      date: new Date(2020, 7, 14),
-    },
-    { id: 'e2', title: 'New TV', amount: 799.49, date: new Date(2021, 2, 12) },
-    {
-      id: 'e3',
-      title: 'Car Insurance',
-      amount: 294.67,
-      date: new Date(2021, 2, 28),
-    },
-    {
-      id: 'e4',
-      title: 'New Desk (Wooden)',
-      amount: 450,
-      date: new Date(2021, 5, 12),
-    },
-  ];
+function Expenses(props) {
+  const expenses = props.expenses || [];
+  let output;
+  if (expenses.length > 0) {
+    output = expenses.map((exp) => <ExpenseItem key={exp.id} expense={exp} />);
+  } else {
+    output = <NoExpense />;
+  }
 
   return (
     <Card className="expenses">
-      <ExpenseItem expense={expenses[0]} />
-      <ExpenseItem expense={expenses[1]} />
-      <ExpenseItem expense={expenses[2]} />
-      <ExpenseItem expense={expenses[3]} />
+      <div>
+        <div>
+          <ExpensesFilter
+            onSelectionChanged={props.onSelectionChangedHandler}
+            years={props.years}
+          />
+        </div>
+        <div>{output}</div>
+      </div>
     </Card>
   );
 }
