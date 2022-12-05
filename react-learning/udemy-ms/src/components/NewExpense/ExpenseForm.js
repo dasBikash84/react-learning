@@ -6,6 +6,8 @@ const ExpenseForm = (props) => {
   // const [enteredAmount, setEnteredAmount] = useState(0.0);
   // const [enteredDate, setEnteredDate] = useState(null);
 
+  const [showAddBlock, setShowAddBlock] = useState(false);
+
   const [userInput, setUserInput] = useState({
     title: '',
     amount: '',
@@ -65,6 +67,22 @@ const ExpenseForm = (props) => {
 
   // console.log('userInput', userInput);
 
+  const onShowAddBlock = () => {
+    setShowAddBlock(true);
+  };
+
+  const onCancelClick = () => {
+    setShowAddBlock(false);
+  };
+
+  if (!showAddBlock) {
+    return (
+      <div className="new-expense__control">
+        <button onClick={onShowAddBlock}>Add Expense</button>
+      </div>
+    );
+  }
+
   return (
     <form onSubmit={onSubmitHandler}>
       <div className="new-expense__controls">
@@ -98,6 +116,7 @@ const ExpenseForm = (props) => {
         </div>
       </div>
       <div className="new-expense__actions">
+        <button onClick={onCancelClick}>Cancel</button>
         <button type="submit">Add Expense</button>
       </div>
     </form>

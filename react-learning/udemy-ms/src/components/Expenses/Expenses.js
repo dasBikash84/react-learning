@@ -1,18 +1,9 @@
 import Card from '../UI/Card';
-import ExpenseItem from './ExpenseItem';
 import './Expenses.css';
 import ExpensesFilter from './ExpensesFilter';
-import NoExpense from './NoExpense';
+import ExpensesList from './ExpensesList';
 
 function Expenses(props) {
-  const expenses = props.expenses || [];
-  let output;
-  if (expenses.length > 0) {
-    output = expenses.map((exp) => <ExpenseItem key={exp.id} expense={exp} />);
-  } else {
-    output = <NoExpense />;
-  }
-
   return (
     <Card className="expenses">
       <div>
@@ -22,7 +13,9 @@ function Expenses(props) {
             years={props.years}
           />
         </div>
-        <div>{output}</div>
+        <div>
+          <ExpensesList expenses={props.expenses} />
+        </div>
       </div>
     </Card>
   );
