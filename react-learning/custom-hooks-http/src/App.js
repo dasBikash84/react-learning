@@ -20,13 +20,24 @@ function App() {
 
   const reqData = useCallback(() => fetch(tasksUrl), []);
 
-  const { isLoading, error, fetchTasks } = useCallFirebase(
-    reqData,
-    processTaskData
-  );
+  const {
+    isLoading,
+    error,
+    callFirebase: fetchTasks,
+  } = useCallFirebase(reqData, processTaskData);
 
   const taskAddHandler = useCallback((task) => {
     setTasks((prevTasks) => prevTasks.concat(task));
+  }, []);
+
+  const taskRemoveHandler = useCallback((taskId) => {
+    console.log(taskId);
+    setTasks((prevTasks) =>
+      prevTasks.filter((t) => {
+        console.log(t);
+        return t.id !== taskId;
+      })
+    );
   }, []);
 
   useEffect(() => {
@@ -41,6 +52,7 @@ function App() {
         loading={isLoading}
         error={error}
         onFetch={fetchTasks}
+        onRemoveTask={taskRemoveHandler}
       />
     </Fragment>
   );

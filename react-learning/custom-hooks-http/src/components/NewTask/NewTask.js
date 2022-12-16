@@ -31,10 +31,11 @@ const NewTask = (props) => {
     []
   );
 
-  const { isLoading, error, fetchTasks } = useCallFirebase(
-    reqData,
-    processTaskData
-  );
+  const {
+    isLoading,
+    error,
+    callFirebase: fetchTasks,
+  } = useCallFirebase(reqData, processTaskData);
 
   const enterTaskHandler = (userText) => {
     console.log(`User data: ${userText}`);

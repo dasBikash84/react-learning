@@ -5,11 +5,24 @@ import classes from './Tasks.module.css';
 const Tasks = (props) => {
   let taskList = <h2>No tasks found. Start adding some!</h2>;
 
+  const deleteTask = (id) => {
+    console.log(id);
+    props.onRemoveTask(id);
+  };
+
   if (props.items.length > 0) {
     taskList = (
       <ul>
         {props.items.map((task) => (
-          <TaskItem key={task.id}>{task.text}</TaskItem>
+          <TaskItem
+            taskId={task.id}
+            key={task.id}
+            onClick={() => {
+              deleteTask(task.id);
+            }}
+          >
+            {task.text}
+          </TaskItem>
         ))}
       </ul>
     );

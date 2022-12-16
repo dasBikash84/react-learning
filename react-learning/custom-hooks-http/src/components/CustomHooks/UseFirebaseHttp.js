@@ -4,7 +4,7 @@ export const useCallFirebase = (req, processData) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchTasks = useCallback(async () => {
+  const callFirebase = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
@@ -31,5 +31,5 @@ export const useCallFirebase = (req, processData) => {
     setIsLoading(false);
   }, [req, processData]);
 
-  return { isLoading, error, fetchTasks };
+  return { isLoading, error, callFirebase: callFirebase };
 };
