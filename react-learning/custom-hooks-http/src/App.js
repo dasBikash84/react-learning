@@ -1,13 +1,37 @@
-// import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import Tasks from './components/Tasks/Tasks';
 import NewTask from './components/NewTask/NewTask';
-import { useCallFirebaseForTasks } from './components/CustomHooks/UseFirebaseHttp.js';
+import { useCallFirebase } from './components/CustomHooks/UseFirebaseHttp.js';
 import { Fragment } from 'react';
 
+const tasksUrl = `${process.env.REACT_APP_FIREBASE_BASE_PATH}/tasks.json`;
+
 function App() {
-  const [isLoading, error, tasks, taskAddHandler, fetchTasks] =
-    useCallFirebaseForTasks();
+  const [tasks, setTasks] = useState([]);
+
+  const processTaskData = useCallback((data) => {
+    const loadedTasks = [];
+    for (const taskKey in data) {
+      loadedTasks.push({ id: taskKey, text: data[taskKey].text });
+    }
+    setTasks(loadedTasks);
+  }, []);
+
+  const reqData = useCallback(() => fetch(tasksUrl), []);
+
+  const { isLoading, error, fetchTasks } = useCallFirebase(
+    reqData,
+    processTaskData
+  );
+
+  const taskAddHandler = useCallback((task) => {
+    setTasks((prevTasks) => prevTasks.concat(task));
+  }, []);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
   return (
     <Fragment>

@@ -1,8 +1,8 @@
-import { useRef } from 'react';
+import React, { useImperativeHandle, useRef } from 'react';
 
 import classes from './TaskForm.module.css';
 
-const TaskForm = (props) => {
+const TaskForm = (props, ref) => {
   const taskInputRef = useRef();
 
   const submitHandler = (event) => {
@@ -15,12 +15,24 @@ const TaskForm = (props) => {
     }
   };
 
+  const getValue = () => taskInputRef.current.value;
+
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        curentValue: getValue,
+      };
+    },
+    []
+  );
+
   return (
     <form className={classes.form} onSubmit={submitHandler}>
-      <input type='text' ref={taskInputRef} />
+      <input type="text" ref={taskInputRef} />
       <button>{props.loading ? 'Sending...' : 'Add Task'}</button>
     </form>
   );
 };
 
-export default TaskForm;
+export default React.forwardRef(TaskForm);
