@@ -1,22 +1,19 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useContext, useRef } from 'react';
+import FirebaseContext from '../../store/FirebaseContext';
 import { useCallFirebase } from '../CustomHooks/UseFirebaseHttp';
 
 import Section from '../UI/Section';
 import TaskForm from './TaskForm';
 
 const NewTask = (props) => {
+  const ctx = useContext(FirebaseContext);
+
   const taskInputRef = useRef();
   const processTaskData = useCallback(
     (data) => {
-      const generatedId = data.name; // firebase-specific => "name" contains generated id
-      const createdTask = {
-        id: generatedId,
-        text: taskInputRef.current.curentValue(),
-      };
-
-      props.onAddTask(createdTask);
+      ctx.refreshTasks();
     },
-    [props.onAddTask]
+    [ctx]
   );
 
   const reqData = useCallback(
