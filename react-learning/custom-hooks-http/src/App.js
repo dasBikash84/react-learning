@@ -1,51 +1,16 @@
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
 
 import Tasks from './components/Tasks/Tasks';
 import NewTask from './components/NewTask/NewTask';
+import { useCallFirebaseForTasks } from './components/CustomHooks/UseFirebaseHttp.js';
+import { Fragment } from 'react';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [tasks, setTasks] = useState([]);
-
-  const fetchTasks = async (taskText) => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_FIREBASE_BASE_PATH}/tasks.json`
-      );
-
-      if (!response.ok) {
-        throw new Error('Request failed!');
-      }
-
-      const data = await response.json();
-      console.log(data);
-
-      const loadedTasks = [];
-
-      for (const taskKey in data) {
-        loadedTasks.push({ id: taskKey, text: data[taskKey].text });
-      }
-
-      setTasks(loadedTasks);
-    } catch (err) {
-      setError(err.message || 'Something went wrong!');
-    }
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  const taskAddHandler = (task) => {
-    setTasks((prevTasks) => prevTasks.concat(task));
-  };
+  const [isLoading, error, tasks, taskAddHandler, fetchTasks] =
+    useCallFirebaseForTasks();
 
   return (
-    <React.Fragment>
+    <Fragment>
       <NewTask onAddTask={taskAddHandler} />
       <Tasks
         items={tasks}
@@ -53,7 +18,7 @@ function App() {
         error={error}
         onFetch={fetchTasks}
       />
-    </React.Fragment>
+    </Fragment>
   );
 }
 
