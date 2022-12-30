@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const QuoteForm = (props) => {
-  const linkDetails = useSelector((state) => state.linkDetails.links);
+  const linkDetails = useSelector((state) => state.linkDetails.links.nav);
   const dispatcher = useDispatch();
   const history = useHistory();
 

@@ -16,7 +16,21 @@ const quotesSlice = createSlice({
         id,
         author,
         text,
+        comments: [],
       });
+    },
+
+    addComment(state, action) {
+      console.log(state.quotes);
+      console.log(action.payload.quoteId);
+      const quote = state.quotes.find((q) => q.id === action.payload.quoteId);
+      console.log(quote);
+      if (quote) {
+        quote.comments.push({
+          id: Math.random().toString(),
+          text: action.payload.text,
+        });
+      }
     },
   },
 });

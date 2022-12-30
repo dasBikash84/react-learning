@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import classes from './NoQuotesFound.module.css';
 
 const NoQuotesFound = () => {
-  const linkDetails = useSelector((state) => state.linkDetails.links);
+  const linkDetails = useSelector((state) => state.linkDetails.links.nav);
 
   return (
     <div className={classes.noquotes}>

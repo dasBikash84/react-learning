@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import classes from './MainNavigation.module.css';
 
 const MainNavigation = () => {
-  const linkDetails = useSelector((state) => state.linkDetails.links);
+  const linkDetails = useSelector((state) => state.linkDetails.links.nav);
 
   return (
     <header className={classes.header}>
@@ -12,7 +12,7 @@ const MainNavigation = () => {
         <ul>
           {Object.values(linkDetails).map((link) => (
             <li key={link.id}>
-              <NavLink activeClassName={classes.active} to={link.url}>
+              <NavLink activeClassName={classes.active} to={link.url} exact>
                 {link.text}
               </NavLink>
             </li>

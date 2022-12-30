@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import MainNavigation from './components/layout/MainNavigation';
+import QuoteDetails from './components/quotes/QuoteDetails';
 import QuoteForm from './components/quotes/QuoteForm';
 import QuoteList from './components/quotes/QuoteList';
 
@@ -13,13 +14,16 @@ function App() {
       <MainNavigation />
       <Switch>
         <Route path="/" exact>
-          <Redirect to={linkDetails.allQuote.url} />
+          <Redirect to={linkDetails.nav.allQuote.url} />
         </Route>
-        <Route path={linkDetails.allQuote.url} exact>
+        <Route path={linkDetails.nav.allQuote.url} exact>
           <QuoteList />
         </Route>
-        <Route path={linkDetails.addQuote.url} exact>
+        <Route path={linkDetails.nav.addQuote.url} exact>
           <QuoteForm />
+        </Route>
+        <Route path={linkDetails.quoteDetails.url} exact>
+          <QuoteDetails />
         </Route>
       </Switch>
     </Fragment>

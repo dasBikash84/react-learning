@@ -2,15 +2,22 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const linkDetailsList = {
   links: {
-    allQuote: {
-      id: 'all_quotes',
-      text: 'All Quotes',
-      url: '/quotes',
+    nav: {
+      allQuote: {
+        id: 'all_quotes',
+        text: 'All Quotes',
+        url: '/quotes',
+      },
+      addQuote: {
+        id: 'add_quotes',
+        text: 'Add a Quote',
+        url: '/add-quote',
+      },
     },
-    addQuote: {
-      id: 'add_quotes',
-      text: 'Add a Quote',
-      url: '/add-quote',
+    quoteDetails: {
+      id: 'quote_details',
+      text: 'Quote details',
+      url: '/quotes/:quoteId',
     },
   },
 };
