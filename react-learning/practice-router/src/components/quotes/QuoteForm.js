@@ -5,13 +5,13 @@ import LoadingSpinner from '../UI/LoadingSpinner';
 import classes from './QuoteForm.module.css';
 import { quoteActions } from '../../store/quotes-slice';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+// import { useHistory } from 'react-router-dom';
+// import { useSelector } from 'react-redux';
 
 const QuoteForm = (props) => {
-  const linkDetails = useSelector((state) => state.linkDetails.links.nav);
+  // const linkDetails = useSelector((state) => state.linkDetails.links.nav);
   const dispatcher = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
 
   const authorInputRef = useRef();
   const textInputRef = useRef();
@@ -29,8 +29,8 @@ const QuoteForm = (props) => {
       dispatcher(
         quoteActions.addQuote({ author: enteredAuthor, text: enteredText })
       );
-
-      history.push(linkDetails.allQuote.url);
+      props.onQuoteAdd();
+      // history.push(linkDetails.allQuote.url);
     }
   }
 

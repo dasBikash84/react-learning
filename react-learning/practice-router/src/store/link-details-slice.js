@@ -19,6 +19,11 @@ const linkDetailsList = {
       text: 'Quote details',
       url: '/quotes/:quoteId',
     },
+    addComment: {
+      id: 'add_comment',
+      text: 'Add Comment',
+      url: '/quotes/:quoteId/add-comment',
+    },
   },
 };
 

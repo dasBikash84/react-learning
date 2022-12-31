@@ -1,32 +1,30 @@
-import { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import MainNavigation from './components/layout/MainNavigation';
-import QuoteDetails from './components/quotes/QuoteDetails';
-import QuoteForm from './components/quotes/QuoteForm';
-import QuoteList from './components/quotes/QuoteList';
+import Layout from './components/layout/Layout';
+import QuoteDetails from './pages/QuoteDetails';
+import AddQuote from './pages/AddQuote';
+import AllQuotes from './pages/AllQuotes';
 
 function App() {
   const linkDetails = useSelector((state) => state.linkDetails.links);
 
   return (
-    <Fragment>
-      <MainNavigation />
+    <Layout>
       <Switch>
         <Route path="/" exact>
           <Redirect to={linkDetails.nav.allQuote.url} />
         </Route>
         <Route path={linkDetails.nav.allQuote.url} exact>
-          <QuoteList />
+          <AllQuotes />
         </Route>
         <Route path={linkDetails.nav.addQuote.url} exact>
-          <QuoteForm />
+          <AddQuote />
         </Route>
-        <Route path={linkDetails.quoteDetails.url} exact>
+        <Route path={linkDetails.quoteDetails.url}>
           <QuoteDetails />
         </Route>
       </Switch>
-    </Fragment>
+    </Layout>
   );
 }
 
