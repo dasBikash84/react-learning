@@ -1,33 +1,33 @@
 import { useContext, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import useHttp from '../../hooks/use-http';
 import { addComment } from '../../lib/api';
 import AppContext from '../../store/AppContext';
-import { quoteActions } from '../../store/quotes-slice';
 
 import classes from './NewCommentForm.module.css';
 
 const NewCommentForm = (props) => {
-  const ctx = useContext(AppContext);
+  const { displayErrorModal } = useContext(AppContext);
 
   const { sendRequest, status, error } = useHttp(addComment, false);
 
   const commentTextRef = useRef();
   // const dispatcher = useDispatch();
 
+  const { requestCommentsReload } = props;
+
   useEffect(() => {
     if (error !== null) {
       console.log('displaying error modal....');
-      ctx.displayErrorModal(error);
+      displayErrorModal(error);
     }
-  }, [error]);
+  }, [error, displayErrorModal]);
 
   useEffect(() => {
     if (status === 'completed') {
       commentTextRef.current.value = '';
-      props.requestCommentsReload();
+      requestCommentsReload();
     }
-  }, [status]);
+  }, [status, requestCommentsReload]);
 
   const submitFormHandler = (event) => {
     event.preventDefault();
