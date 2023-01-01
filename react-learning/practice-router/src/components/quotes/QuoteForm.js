@@ -3,8 +3,6 @@ import { useContext, useEffect, useRef } from 'react';
 import Card from '../UI/Card';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import classes from './QuoteForm.module.css';
-import { quoteActions } from '../../store/quotes-slice';
-import { useDispatch } from 'react-redux';
 import { addQuote } from '../../lib/api';
 import useHttp from '../../hooks/use-http';
 import AppContext from '../../store/AppContext';
@@ -17,6 +15,8 @@ const QuoteForm = (props) => {
   // const history = useHistory();
   const ctx = useContext(AppContext);
 
+  const { displayErrorModal } = ctx;
+
   const { sendRequest, status, error } = useHttp(addQuote, false);
 
   const authorInputRef = useRef();
@@ -24,18 +24,20 @@ const QuoteForm = (props) => {
 
   console.log('rebuilding QuoteForm.....');
 
+  const { onQuoteAdd } = props;
+
   useEffect(() => {
     if (status === 'completed' && error === null) {
-      props.onQuoteAdd();
+      onQuoteAdd();
     }
-  }, [status, error, props.onQuoteAdd]);
+  }, [status, error, onQuoteAdd]);
 
   useEffect(() => {
     if (error !== null) {
       console.log('displaying quote....');
-      ctx.displayErrorModal(error);
+      displayErrorModal(error);
     }
-  }, [ctx.displayErrorModal, error]);
+  }, [displayErrorModal, error]);
 
   function submitFormHandler(event) {
     event.preventDefault();

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import QuoteDetails from './pages/QuoteDetails';
 import AddQuote from './pages/AddQuote';
@@ -7,6 +7,7 @@ import AllQuotes from './pages/AllQuotes';
 import { useCallback, useState } from 'react';
 import ErrorModal from './components/UI/ErrorModal';
 import AppContext from './store/AppContext';
+import { Navigate, Routes } from 'react-router-dom/dist';
 
 function App() {
   const linkDetails = useSelector((state) => state.linkDetails.links);
@@ -41,20 +42,19 @@ function App() {
             onOkPress={errorModalOkAction}
           />
         )}
-        <Switch>
-          <Route path="/" exact>
-            <Redirect to={linkDetails.nav.allQuote.url} />
-          </Route>
-          <Route path={linkDetails.nav.allQuote.url} exact>
-            <AllQuotes />
-          </Route>
-          <Route path={linkDetails.nav.addQuote.url} exact>
-            <AddQuote />
-          </Route>
-          <Route path={linkDetails.quoteDetails.url}>
-            <QuoteDetails />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route
+            path="/"
+            element={<Navigate to={linkDetails.nav.allQuote.url} />}
+            replace
+          />
+          <Route path={linkDetails.nav.allQuote.url} element={<AllQuotes />} />
+          <Route path={linkDetails.nav.addQuote.url} element={<AddQuote />} />
+          <Route
+            path={linkDetails.quoteDetails.url}
+            element={<QuoteDetails />}
+          />
+        </Routes>
       </Layout>
     </AppContext.Provider>
   );

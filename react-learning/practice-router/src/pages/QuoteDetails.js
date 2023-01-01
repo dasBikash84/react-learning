@@ -1,13 +1,6 @@
 import { Fragment, useCallback, useContext, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import {
-  Link,
-  Route,
-  useHistory,
-  useLocation,
-  useParams,
-  useRouteMatch,
-} from 'react-router-dom';
+import { Route, useParams } from 'react-router-dom';
+import { Routes, useNavigate } from 'react-router-dom/dist';
 import Comments from '../components/comments/Comments';
 import CommentsList from '../components/comments/CommentsList';
 import HighlightedQuote from '../components/quotes/HighlightedQuote';
@@ -17,14 +10,12 @@ import { getAllComments, getSingleQuote } from '../lib/api';
 import AppContext from '../store/AppContext';
 
 const QuoteDetails = () => {
-  const linkDetails = useSelector((state) => state.linkDetails.links);
   const params = useParams();
   const ctx = useContext(AppContext);
-  const location = useLocation();
-  const match = useRouteMatch();
   const [comments, setComments] = useState(null);
-  const history = useHistory();
-
+  const navigate = useNavigate();
+  const { displayErrorModal } = ctx;
+  const { quoteId } = params;
   const {
     sendRequest,
     data: quote,
@@ -40,15 +31,15 @@ const QuoteDetails = () => {
   } = useHttp(getAllComments, false);
 
   useEffect(() => {
-    sendRequest(params.quoteId);
-  }, []);
+    sendRequest(quoteId);
+  }, [sendRequest, quoteId]);
 
   useEffect(() => {
     if (error !== null || commentsFetchError != null) {
       console.log('displaying error modal....');
-      ctx.displayErrorModal(error || commentsFetchError);
+      displayErrorModal(error || commentsFetchError);
     }
-  }, [error, commentsFetchError]);
+  }, [error, commentsFetchError, displayErrorModal]);
 
   useEffect(() => {
     if (commentsData) {
@@ -63,16 +54,16 @@ const QuoteDetails = () => {
 
   const commentPageUrl = `/quotes/${params.quoteId}/add-comment`;
   console.log(params.quoteId);
-  console.log('location', location);
-  console.log('route match', match);
+  // console.log('location', location);
+  // console.log('route match', match);
 
   const requestCommentsReload = useCallback(() => {
-    requestComments(params.quoteId);
-  }, []);
+    requestComments(quoteId);
+  }, [requestComments, quoteId]);
 
   const showCommentsHandler = () => {
     requestCommentsReload();
-    history.push(commentPageUrl);
+    navigate(commentPageUrl);
   };
 
   return (
@@ -86,24 +77,29 @@ const QuoteDetails = () => {
       {status === 'completed' && quote != null && (
         <HighlightedQuote text={quote.text} author={quote.author} />
       )}
+      <Routes>
+        <Route
+          path=""
+          element={
+            <div className="centered">
+              <button onClick={showCommentsHandler} className="btn">
+                Show Comments
+              </button>
+            </div>
+          }
+        />
 
-      <Route path={linkDetails.quoteDetails.url} exact>
-        <div className="centered">
-          <button onClick={showCommentsHandler} className="btn">
-            Show Comments
-          </button>
-        </div>
-      </Route>
-
-      {
-        <Route path={linkDetails.addComment.url} exact>
-          <Fragment>
-            {commentsFetchStatus === null && requestCommentsReload()}
-            <Comments requestCommentsReload={requestCommentsReload} />
-            {comments && <CommentsList comments={comments} />}
-          </Fragment>
-        </Route>
-      }
+        <Route
+          path="add-comment"
+          element={
+            <Fragment>
+              {commentsFetchStatus === null && requestCommentsReload()}
+              <Comments requestCommentsReload={requestCommentsReload} />
+              {comments && <CommentsList comments={comments} />}
+            </Fragment>
+          }
+        />
+      </Routes>
     </Fragment>
   );
 };

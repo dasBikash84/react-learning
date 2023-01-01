@@ -12,7 +12,13 @@ const MainNavigation = () => {
         <ul>
           {Object.values(linkDetails).map((link) => (
             <li key={link.id}>
-              <NavLink activeClassName={classes.active} to={link.url} exact>
+              <NavLink
+                className={(navData) =>
+                  navData.isActive ? classes.active : ''
+                }
+                to={link.url}
+                exact
+              >
                 {link.text}
               </NavLink>
             </li>

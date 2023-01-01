@@ -4,7 +4,6 @@ import QuoteItem from './QuoteItem';
 import classes from './QuoteList.module.css';
 
 import NoQuotesFound from './NoQuotesFound';
-import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import _ from 'underscore';
 import { getAllQuotes } from '../../lib/api';
@@ -14,6 +13,7 @@ import AppContext from '../../store/AppContext';
 
 const QuoteList = () => {
   const ctx = useContext(AppContext);
+  const { displayErrorModal } = ctx;
   const {
     sendRequest,
     data: quotes,
@@ -28,9 +28,9 @@ const QuoteList = () => {
   useEffect(() => {
     if (error !== null) {
       console.log('displaying error modal....');
-      ctx.displayErrorModal(error);
+      displayErrorModal(error);
     }
-  }, [ctx.displayErrorModal, error]);
+  }, [displayErrorModal, error]);
 
   useEffect(() => {
     setTimeout(() => {

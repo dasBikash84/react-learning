@@ -17,7 +17,7 @@ const linkDetailsList = {
     quoteDetails: {
       id: 'quote_details',
       text: 'Quote details',
-      url: '/quotes/:quoteId',
+      url: '/quotes/:quoteId/*',
     },
     addComment: {
       id: 'add_comment',
