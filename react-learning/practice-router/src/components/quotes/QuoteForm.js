@@ -60,7 +60,7 @@ const QuoteForm = (props) => {
     <Card>
       <form className={classes.form} onSubmit={submitFormHandler}>
         {status === 'pending' && (
-          <div className={classes.loading}>
+          <div className="loading">
             <LoadingSpinner />
           </div>
         )}

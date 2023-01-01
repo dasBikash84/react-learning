@@ -3,7 +3,7 @@ import CommentItem from './CommentItem';
 import classes from './CommentsList.module.css';
 
 const CommentsList = (props) => {
-  console.log(props.comments.length);
+  // console.log(props.comments);
   return (
     <div className={classes.comments}>
       {props.comments.length > 0 && <p>Comments...</p>}

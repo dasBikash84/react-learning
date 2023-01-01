@@ -35,7 +35,7 @@ const QuoteList = () => {
   useEffect(() => {
     setTimeout(() => {
       sendRequest();
-    }, 500);
+    }, 50);
   }, [sendRequest]);
 
   let buttonText = 'Sort Decending';
@@ -78,7 +78,7 @@ const QuoteList = () => {
   return (
     <Fragment>
       {status !== 'completed' && (
-        <div className={classes.loading}>
+        <div className="loading">
           <LoadingSpinner />
         </div>
       )}
