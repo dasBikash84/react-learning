@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import QuoteForm from '../components/quotes/QuoteForm';
@@ -13,10 +13,10 @@ const AddQuote = () => {
     console.log('New quote added.');
   };
 
-  const onQuoteAddHandler = () => {
+  const onQuoteAddHandler = useCallback(() => {
     history.push(linkDetails.allQuote.url);
     ctx.displayErrorModal('New quote added.', modalLogTask);
-  };
+  }, [ctx, history, linkDetails.allQuote.url]);
 
   return <QuoteForm onQuoteAdd={onQuoteAddHandler} />;
 };

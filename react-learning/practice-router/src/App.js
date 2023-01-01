@@ -4,7 +4,7 @@ import Layout from './components/layout/Layout';
 import QuoteDetails from './pages/QuoteDetails';
 import AddQuote from './pages/AddQuote';
 import AllQuotes from './pages/AllQuotes';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import ErrorModal from './components/UI/ErrorModal';
 import AppContext from './store/AppContext';
 
@@ -21,11 +21,11 @@ function App() {
     setErrorModalVisibility(false);
   };
 
-  const displayErrorModal = (message, okayAction) => {
+  const displayErrorModal = useCallback((message, okayAction) => {
     setErrorModalMessage(message);
     setErrorModalOkAction(okayAction);
     setErrorModalVisibility(true);
-  };
+  }, []);
 
   return (
     <AppContext.Provider
