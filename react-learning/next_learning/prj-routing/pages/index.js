@@ -1,10 +1,10 @@
-import { useRouter } from 'next/router';
+import EventList from '../components/events/event-list';
+import { getFeaturedEvents } from '../dummy-data';
 
 export default function FeaturedEvents() {
-  const router = useRouter();
+  const featuredEvent = getFeaturedEvents();
 
-  console.log(router.pathname);
-  console.log(router.query);
+  console.log(featuredEvent);
 
-  return <h1>Featured events page...</h1>;
+  return <EventList items={featuredEvent} />;
 }
