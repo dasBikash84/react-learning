@@ -1,22 +1,20 @@
 import { Fragment } from 'react';
-import { useRouter } from 'next/router';
 
-import { getEventById } from '../../dummy-data';
 import EventSummary from '../../components/event-detail/event-summary';
 import EventLogistics from '../../components/event-detail/event-logistics';
 import EventContent from '../../components/event-detail/event-content';
 import ErrorAlert from '../../components/ui/error-alert';
+import { getEventsDataById } from '../../utils/firebase-utils';
 
-function EventDetailPage() {
-  const router = useRouter();
+// Impl with getStaticPaths & getStaticProps
 
-  const eventId = router.query.eventId;
-  const event = getEventById(eventId);
+function EventDetailPage(props) {
+  const { eventData: event } = props;
 
   if (!event) {
     return (
       <ErrorAlert>
-        <p>No event found!</p>
+        <p>Loading.....</p>
       </ErrorAlert>
     );
   }
@@ -38,3 +36,37 @@ function EventDetailPage() {
 }
 
 export default EventDetailPage;
+
+export async function getStaticProps(context) {
+  const { params } = context;
+
+  const eventId = params.eventId;
+
+  const eventData = await getEventsDataById(eventId);
+
+  if (!eventData || eventData.error) {
+    return {
+      notFound: true,
+      revalidate: 60,
+    };
+  }
+
+  return {
+    props: {
+      eventData: eventData,
+    },
+    revalidate: 3600,
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [
+      { params: { eventId: 'p1' } },
+      { params: { eventId: 'p2' } },
+      // { params: { eventId: 'p3' } },
+    ],
+    fallback: true,
+    // fallback: 'blocking',
+  };
+}
