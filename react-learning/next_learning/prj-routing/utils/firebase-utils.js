@@ -1,8 +1,13 @@
-export const FIREBASE_ALL_EVENTS_URL =
-  'https://react-test-5b8ab-default-rtdb.asia-southeast1.firebasedatabase.app/events.json';
+const FIREBASE_ALL_EVENTS_BASE_URL =
+  'https://react-test-5b8ab-default-rtdb.asia-southeast1.firebasedatabase.app/events-obj';
+
+export const FIREBASE_ALL_EVENTS_URL = `${FIREBASE_ALL_EVENTS_BASE_URL}.json`;
 
 export default async function readAllEventsFromFriebase() {
-  return readFromFriebaseRealTimeDb(FIREBASE_ALL_EVENTS_URL);
+  const allEventsObj = await readFromFriebaseRealTimeDb(
+    FIREBASE_ALL_EVENTS_URL
+  );
+  return Object.values(allEventsObj);
 }
 
 export async function getEventsDataById(id) {
@@ -11,7 +16,7 @@ export async function getEventsDataById(id) {
 
 async function readFromFriebaseRealTimeDb(url) {
   let fbData;
-  console.log('calling firebase....');
+  console.log(`calling firebase: ${url}`);
   try {
     const res = await fetch(url);
     fbData = await res.json();
@@ -23,7 +28,7 @@ async function readFromFriebaseRealTimeDb(url) {
 }
 
 function getEventsPathById(id) {
-  return `https://react-test-5b8ab-default-rtdb.asia-southeast1.firebasedatabase.app/events-obj/${id}.json`;
+  return `${FIREBASE_ALL_EVENTS_BASE_URL}/${id}.json`;
 }
 
 export async function getFeaturedEventsFromFb() {

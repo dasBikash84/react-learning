@@ -5,8 +5,6 @@ import classes from './event-list.module.css';
 export default function EventList(props) {
   const { items } = props;
 
-  console.log(items);
-
   return (
     <Fragment>
       <ul className={classes.list}>
