@@ -5,6 +5,7 @@ import EventLogistics from '../../components/event-detail/event-logistics';
 import EventContent from '../../components/event-detail/event-content';
 import ErrorAlert from '../../components/ui/error-alert';
 import { getEventsDataById } from '../../utils/firebase-utils';
+import Comments from '../../components/input/comments';
 
 // Impl with getStaticPaths & getStaticProps
 
@@ -31,6 +32,7 @@ function EventDetailPage(props) {
       <EventContent>
         <p>{event.description}</p>
       </EventContent>
+      <Comments eventId={event.id} />
     </Fragment>
   );
 }

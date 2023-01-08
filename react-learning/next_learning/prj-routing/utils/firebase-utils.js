@@ -45,7 +45,6 @@ export async function getFilteredEvents(year, month) {
 
   let filteredEvents = allEvents.filter((event) => {
     const eventDate = new Date(event.date);
-    console.log(year, eventDate.getFullYear(), eventDate.getMonth(), month);
     return (
       eventDate.getFullYear() === year && eventDate.getMonth() === month - 1
     );

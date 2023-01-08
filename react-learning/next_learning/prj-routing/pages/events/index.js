@@ -18,7 +18,7 @@ export default function AllEvents(props) {
     router.push(`/events/${selectedYear}/${selectedMonth}`);
   };
 
-  const { data, error, isLoading } = useFirebaseFetch(FIREBASE_ALL_EVENTS_URL);
+  const { data, isLoading } = useFirebaseFetch(FIREBASE_ALL_EVENTS_URL);
 
   useEffect(() => {
     if (data && !data.error) {
@@ -33,7 +33,6 @@ export default function AllEvents(props) {
       </ErrorAlert>
     );
   }
-  // console.log('eventsData', eventsData);
   if (eventsData) {
     return (
       <Fragment>
@@ -76,7 +75,6 @@ export async function getStaticProps() {
       };
     }
   }
-  // console.log('allEvents: ', allEvents);
   return {
     props: {
       eventsData: allEvents,
