@@ -2,11 +2,9 @@ import { useRouter } from 'next/router';
 import { Fragment, useEffect, useState } from 'react';
 import EventList from '../../components/events/event-list';
 import EventsSearch from '../../components/events/events-search';
-import useFirebaseFetch from '../../components/hooks/firebase-fetch';
 import ErrorAlert from '../../components/ui/error-alert';
-import readAllEventsFromFriebase, {
-  FIREBASE_ALL_EVENTS_URL,
-} from '../../utils/firebase-utils';
+import { useBeApiFetch } from '../../components/hooks/api-fetch';
+import readAllEventsFromFriebase from '../../utils/firebase-utils';
 
 // This impl is with getStaticProps and client side refresh.
 
@@ -18,22 +16,26 @@ export default function AllEvents(props) {
     router.push(`/events/${selectedYear}/${selectedMonth}`);
   };
 
-  const { data, isLoading } = useFirebaseFetch(FIREBASE_ALL_EVENTS_URL);
+  // const { data, isLoading } = useFirebaseFetch(FIREBASE_ALL_EVENTS_URL);
+  const { data, error, isLoading } = useBeApiFetch('/api/events');
 
   useEffect(() => {
-    if (data && !data.error) {
-      setEventsData(Object.values(data));
+    if (data && !error) {
+      setEventsData(data);
     }
-  }, data);
+  }, [data, error]);
 
-  if (eventsData && eventsData.error) {
+  console.log('data: ', eventsData, 'error: ', error, 'isLoading:', isLoading);
+
+  if (error) {
     return (
       <ErrorAlert>
-        <p>{eventsData.error}</p>
+        <p>{error}</p>
       </ErrorAlert>
     );
   }
-  if (eventsData) {
+
+  if (eventsData && eventsData) {
     return (
       <Fragment>
         <EventsSearch onSearch={searchTask} />
